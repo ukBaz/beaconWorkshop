@@ -27,10 +27,16 @@ sudo dpkg -i node_latest_armhf.deb
 ```
 npm install uri-beacon-scanner
 npm install onoff
+npm install debug
+```
+
+## Running the code
+```
+sudo node tracker.js "uri_for_beacon1" "uri_for_beacon2"
 ```
 
 ## Task list
+- [x] Add code
 - [ ] Add workshop manual
-- [ ] Add code
 - [ ] Write introduction presentation
 
