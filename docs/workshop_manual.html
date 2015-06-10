@@ -1,0 +1,271 @@
+<html>
+<head>
+    <title>Tracking Bluetooth Beacons</title>
+    <link rel="stylesheet" type="text/css" href="css/workshops.css">
+<body>
+<div id="header">
+    <h1>Tracking Bluetooth Beacons</h1>
+</div>
+<p align=center>
+    <img src="assets/uribeacon-logo.png" alt="uriBeacon logo" width=70%>
+</p>
+<P CLASS="pagebreak"></p>
+<h2>Overview</h2>
+<p>
+    In this workshop you will use the Raspberry Pi (RPi) which will scan for the presence of a type of Bluetooth
+    beacon called a uriBeacon.
+</P>
+<p>
+    This workshop will show you how to:
+</p>
+<ul>
+    <li>Initiate a Bluetooth scan to find beacons</li>
+    <li>Capture the information being broadcast</li>
+    <li>Calculate an estimate of distance from the signal degradation between transmit and receive</li>
+    <li>Display the distance using LED 'traffic lights'</li>
+</ul>
+<p>
+    This workshop uses the javascript programming language to do the coding. Javascript is a very widely used
+    language because of its wide use on the web as it can be run in both browsers and the servers.
+</p>
+<p>
+    There are also lots of resources available where you can find more information on what you have learnt today.
+</p>
+
+<h2>Audience Expectations:</h2>
+<p>
+    It is expected that you will have some experience of using a Raspberry Pi (or similar) and some experience
+    of coding. <br>
+    Not to worry if you don't fit that description as the steps are explained in the workshop and there are people
+    on hand to help.
+</p>
+
+<h2>Goal:</h2>
+<p>
+    We will use some existing software modules along with a little of our own code to end up with a system that
+    will allow us to track uriBeacons.
+</p>
+<h2>Let's Get Started!</h2>
+
+<p>
+    In this workshop you will be working in a Linux Operating system environment. This is an alternative to
+    Microsoft Windows popular with all types of Engineers. Linux commands are indicated by lines starting with; >
+</p>
+<pre>
+    > The commands for you to type, or text you will see in
+    the Linux Terminal, are in this text, and have a >
+    at the beginning (don't type this)
+</pre>
+<p class="emphesis">Logging into the Raspberry Pi:</p>
+<p>When the RPi starts up you will be prompted to log in. The details are:</p>
+<pre>
+    > User: pi
+    > Password: raspberry
+</pre>
+<p class="emphesis">Getting a graphical desktop:</p>
+<p>Once you have logged in you will need to start the graphical desktop. This can be done by typing;</p>
+<pre>
+    > startx
+</pre>
+<p class="emphesis">Getting a Linux command prompt:</p>
+<p>
+    Once the desktop has started click on the menus to open an "LXTerminal" which is a Linux command prompt window.
+</p>
+<p align=center>
+    <img src="images/LXterminal_pick.jpg" alt="LX Terminal on menu" width=50%>
+</p>
+ 
+<p class="emphesis">Some basic Linux commands:</p>
+<p>Change to the directory where the Python libraries are that we will use;</p>
+<pre>
+    > cd node/beaconWorkshop
+</pre>
+<p>
+    This is where we will run our javascript script from; more on this in a minute.<br>
+    To list the contents of the is directory type; </p>
+<pre>
+    > ls
+</pre>
+<p>
+    To be able to see the sizes of the files in human readable format, type;
+</p>
+<pre>
+    > ls -lh
+</pre>
+<p align=center>
+    <img src="assets/ls_in_term.jpg" alt="Long listing of directory" width=70%>
+</p>
+
+<p class="emphesis">Starting an editor to enter your program:</p>
+<p>On the command line type; </p>
+<pre>
+    > leafpad tracker.js
+</pre>
+
+<h2>Code:</h2>
+<pre>
+// npm version of uri-beacon-scanner
+var UriBeaconScanner = require('uri-beacon-scanner');
+// Control GPIO
+var Gpio = require('onoff').Gpio;
+var debug = require('debug');
+
+var Beacon = function(uri, red_pin, amber_pin, green_pin) {
+    this.uri = uri;
+    this.tx_power = 0;
+    this.rssi_values = [];
+    this.red_pin = red_pin;
+    this.amber_pin = amber_pin;
+    this.green_pin = green_pin;
+    this.green_led = new Gpio(green_pin, 'out');
+    this.amber_led = new Gpio(amber_pin, 'out');
+    this.red_led = new Gpio(red_pin, 'out');
+    this.timer = null;
+    this.startTimer();
+};
+
+Beacon.prototype.startTimer = function() {
+    var that = this;
+    this.timer = setTimeout(function() {
+        that.red_led.writeSync(0);
+        that.amber_led.writeSync(0);
+        that.green_led.writeSync(0);
+        debug('LEDs Cleared')
+    }, 5000);
+};
+
+Beacon.prototype.resetTimer = function() {
+    debug('Reset Timer')
+    clearTimeout(this.timer);
+    this.startTimer();
+};
+
+
+Beacon.prototype.newScan = function(rssi, tx_power) {
+    var raw_range = calc_range(rssi, tx_power);
+    this.rssi_values.push(raw_range);
+    if (this.rssi_values.length > 5) {
+        this.rssi_values = this.rssi_values.slice(1);
+    }
+    // console.log(this.rssi_values)
+    var range = Math.max.apply(null, this.rssi_values);
+    console.log('range = ' + range + ' for ' + this.uri);
+    if (range < 2) {
+        this.red_led.writeSync(1);
+        this.amber_led.writeSync(0);
+        this.green_led.writeSync(0);
+    } else if ( range > 10 ) {
+        this.red_led.writeSync(0);
+        this.amber_led.writeSync(0);
+        this.green_led.writeSync(1);
+    } else if ( range < 10 && range > 2 ) {
+        this.red_led.writeSync(0);
+        this.amber_led.writeSync(1);
+        this.green_led.writeSync(0);
+    }
+    this.resetTimer();
+};
+
+// Work out distance
+function calc_range(rssi, tx_power) {
+    // debug('rssi: ' + rssi + ' tx power: ' + tx_power)
+    var ratio_db = tx_power - rssi;
+    var ratio_linear = Math.pow(10, ratio_db / 10);
+    var r = Math.sqrt(ratio_linear);
+    // debug('Range: ' + r);
+    return Math.round(r);
+}
+
+UriBeaconScanner.on('discover', function(uriBeacon) {
+   if(beacon1.test(uriBeacon.uri)) {
+       beacon1_id.newScan(uriBeacon.rssi, uriBeacon.txPower);
+   } else if (beacon2.test(uriBeacon.uri)) {
+       beacon2_id.newScan(uriBeacon.rssi, uriBeacon.txPower);
+   }
+});
+
+if(process.argv.length < 4) {
+    console.log("Need to specify two beacons to track");
+    process.exit(1);
+}
+
+var beacon1_arg = process.argv[2];
+var beacon2_arg = process.argv[3];
+var beacon1 = new RegExp(beacon1_arg);
+var beacon2 = new RegExp(beacon2_arg);
+console.log('Tracking Beacon1: ' + beacon1_arg);
+console.log('Tracking Beacon2: ' + beacon2_arg);
+var beacon1_id = new Beacon(beacon1_arg, 7, 8, 25);
+var beacon2_id = new Beacon(beacon2_arg, 18, 15, 14);
+var allowDuplicates = true;
+UriBeaconScanner.startScanning(allowDuplicates);
+
+</pre>
+
+<h2>Testing Your Code:</h2>
+<p>
+    When you are ready to run your code;
+</p>
+<pre>
+    > sudo node tracker.js "1972" "1966"
+</pre>
+<p>
+    Because we need interact with the GPIO pins to control the LED's we will run as <i>superuser</i> which is what
+    the sudo command does.
+</p>
+<p>
+    node is the interpreter that will run our javascript program.
+</p>
+<p>
+    The two numbers in quotes are identifiers of the two beacons we are going to track.
+</p>
+<p align=center>
+    <img src="assets/run_tracker.jpg" alt="Run code on command line" width=70%>
+</p>
+
+<p>
+    When you run this code you will see output on your monitor (from the "print" statements in the code),
+    and also on the display on the circuit board (from the DISP.setMsg statements in the code).
+</p>
+
+<p>
+    Debugging your code means to test it and find any errors that prevent it running as you would like it to,
+    or in fact not running at all!
+</p>
+
+<p>Debugging tips;</p>
+
+<p>
+    ?????????????
+</p>
+<h2>Testing:</h2>
+<p>
+    ???????????????
+</p>
+<P CLASS="pagebreak"></p>
+
+<h1 class="header">Appendix 1: Additional Challenges</h1>
+
+<p>
+    ?????????????
+</p>
+<h2>license</h2>
+<div id=footer>
+    <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+        <img alt="Creative Commons License" style="border-width:0"
+             src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" />
+    </a><br />
+    <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+          property="dct:title" rel="dct:type">This beacon workshop
+    </span>
+    by
+    <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Barry Byford</span>
+    is licensed under a
+    <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+        Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+    <br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/"
+                                href="https://github.com/ukBaz/beaconWorkshop" rel="dct:source">
+    https://github.com/ukBaz/beaconWorkshop</a>.
+</div>
+</body>
+</html>
