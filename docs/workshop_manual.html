@@ -7,7 +7,13 @@
     <h1>Tracking Bluetooth Beacons</h1>
 </div>
 <p align=center>
-    <img src="assets/uribeacon-logo.png" alt="uriBeacon logo" width=70%>
+    <img src="assets/uribeacon-logo.png" alt="uriBeacon logo" width=40%>
+    <br>
+    <img src="assets/nodejs.png" alt="node.js logo" width=70%>
+    <br>
+    <img src="assets/RPi_logo.png" alt="Raspberry Pi logo" width=30%>
+    <br><br>
+    <img src="assets/csr_logo.gif" alt="CSR logo" width=60%>
 </p>
 <P CLASS="pagebreak"></p>
 <h2>Overview</h2>
@@ -72,7 +78,7 @@
     Once the desktop has started click on the menus to open an "LXTerminal" which is a Linux command prompt window.
 </p>
 <p align=center>
-    <img src="images/LXterminal_pick.jpg" alt="LX Terminal on menu" width=50%>
+    <img src="assets/LXterminal_pick.jpg" alt="LX Terminal on menu" width=50%>
 </p>
  
 <p class="emphesis">Some basic Linux commands:</p>
@@ -87,10 +93,10 @@
     > ls
 </pre>
 <p>
-    To be able to see the sizes of the files in human readable format, type;
+    To be able to see the hidden files and sizes of the files in human readable format, type;
 </p>
 <pre>
-    > ls -lh
+    > ls -lah
 </pre>
 <p align=center>
     <img src="assets/ls_in_term.jpg" alt="Long listing of directory" width=70%>
@@ -110,6 +116,7 @@ var UriBeaconScanner = require('uri-beacon-scanner');
 var Gpio = require('onoff').Gpio;
 var debug = require('debug');
 
+// Beacon Constructor
 var Beacon = function(uri, red_pin, amber_pin, green_pin) {
     this.uri = uri;
     this.tx_power = 0;
@@ -124,6 +131,7 @@ var Beacon = function(uri, red_pin, amber_pin, green_pin) {
     this.startTimer();
 };
 
+// Beacon Timer Start method
 Beacon.prototype.startTimer = function() {
     var that = this;
     this.timer = setTimeout(function() {
@@ -134,20 +142,20 @@ Beacon.prototype.startTimer = function() {
     }, 5000);
 };
 
+// Beacon restart timer method
 Beacon.prototype.resetTimer = function() {
     debug('Reset Timer')
     clearTimeout(this.timer);
     this.startTimer();
 };
 
-
+// Beacon method for when new advert received
 Beacon.prototype.newScan = function(rssi, tx_power) {
     var raw_range = calc_range(rssi, tx_power);
     this.rssi_values.push(raw_range);
     if (this.rssi_values.length > 5) {
         this.rssi_values = this.rssi_values.slice(1);
     }
-    // console.log(this.rssi_values)
     var range = Math.max.apply(null, this.rssi_values);
     console.log('range = ' + range + ' for ' + this.uri);
     if (range < 2) {
@@ -166,16 +174,15 @@ Beacon.prototype.newScan = function(rssi, tx_power) {
     this.resetTimer();
 };
 
-// Work out distance
+// Estimate distance using rssi and tx_power
 function calc_range(rssi, tx_power) {
-    // debug('rssi: ' + rssi + ' tx power: ' + tx_power)
     var ratio_db = tx_power - rssi;
     var ratio_linear = Math.pow(10, ratio_db / 10);
     var r = Math.sqrt(ratio_linear);
-    // debug('Range: ' + r);
     return Math.round(r);
 }
 
+// What to do when a new advert is received
 UriBeaconScanner.on('discover', function(uriBeacon) {
    if(beacon1.test(uriBeacon.uri)) {
        beacon1_id.newScan(uriBeacon.rssi, uriBeacon.txPower);
@@ -184,19 +191,23 @@ UriBeaconScanner.on('discover', function(uriBeacon) {
    }
 });
 
+// Check number of command line parameters
 if(process.argv.length < 4) {
     console.log("Need to specify two beacons to track");
     process.exit(1);
 }
 
+// Get beacon ID's to look for from command line
 var beacon1_arg = process.argv[2];
 var beacon2_arg = process.argv[3];
 var beacon1 = new RegExp(beacon1_arg);
 var beacon2 = new RegExp(beacon2_arg);
 console.log('Tracking Beacon1: ' + beacon1_arg);
 console.log('Tracking Beacon2: ' + beacon2_arg);
+// Create beacon instances
 var beacon1_id = new Beacon(beacon1_arg, 7, 8, 25);
 var beacon2_id = new Beacon(beacon2_arg, 18, 15, 14);
+// Start looking for beacons
 var allowDuplicates = true;
 UriBeaconScanner.startScanning(allowDuplicates);
 
@@ -224,8 +235,7 @@ UriBeaconScanner.startScanning(allowDuplicates);
 </p>
 
 <p>
-    When you run this code you will see output on your monitor (from the "print" statements in the code),
-    and also on the display on the circuit board (from the DISP.setMsg statements in the code).
+    When you run this code you will see output on your monitor (from the "console.log" statements in the code).
 </p>
 
 <p>
@@ -234,10 +244,10 @@ UriBeaconScanner.startScanning(allowDuplicates);
 </p>
 
 <p>Debugging tips;</p>
-
 <p>
     ?????????????
 </p>
+
 <h2>Testing:</h2>
 <p>
     ???????????????
@@ -245,11 +255,16 @@ UriBeaconScanner.startScanning(allowDuplicates);
 <P CLASS="pagebreak"></p>
 
 <h1 class="header">Appendix 1: Additional Challenges</h1>
-
+<h2>Reverse order of lights</h2>
 <p>
     ?????????????
 </p>
-<h2>license</h2>
+<h2>Change the range</h2>
+<p>
+    ????????????
+</p>
+
+<h1>license</h1>
 <div id=footer>
     <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
         <img alt="Creative Commons License" style="border-width:0"
