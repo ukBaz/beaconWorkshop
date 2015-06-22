@@ -31,11 +31,15 @@
     <li>Display the distance using LED 'traffic lights'</li>
 </ul>
 <p>
-    This workshop uses the javascript programming language to do the coding. Javascript is a very widely used
-    language because of its wide use on the web as it can be run in both browsers and the servers.
+    This workshop uses the JavaScript programming language to do the coding. Javascript is a popular
+    language because of its wide use in web browsers.
 </p>
 <p>
-    There are also lots of resources available where you can find more information on what you have learnt today.
+    To run JavaScript on the command line you need
+    a runtime environment and we will be using Node.js.
+</p>
+<p>
+    There are lots of resources available online where you can find more information on what you have learnt today.
 </p>
 
 <h2>Audience Expectations:</h2>
@@ -49,7 +53,7 @@
 <h2>Goal:</h2>
 <p>
     We will use some existing software modules along with a little of our own code to end up with a system that
-    will allow us to track uriBeacons.
+    will allow us to track the proximity of uriBeacons.
 </p>
 <h2>Let's Get Started!</h2>
 
@@ -63,7 +67,7 @@
     at the beginning (don't type this)
 </pre>
 <p class="emphesis">Logging into the Raspberry Pi:</p>
-<p>When the RPi starts up you will be prompted to log in. The details are:</p>
+<p>When the Raspberry Pi starts up you will be prompted to log in. The details are:</p>
 <pre>
     > User: pi
     > Password: raspberry
@@ -75,19 +79,20 @@
 </pre>
 <p class="emphesis">Getting a Linux command prompt:</p>
 <p>
-    Once the desktop has started click on the menus to open an "LXTerminal" which is a Linux command prompt window.
+    Once the desktop has started click on the icon at the top of the screen to open an "LXTerminal"
+    which is a Linux command prompt window.
 </p>
 <p align=center>
     <img src="assets/LXterminal_pick.jpg" alt="LX Terminal on menu" width=50%>
 </p>
  
 <p class="emphesis">Some basic Linux commands:</p>
-<p>Change to the directory where the Python libraries are that we will use;</p>
+<p>Change to the directory where we save our work today;</p>
 <pre>
     > cd node/beaconWorkshop
 </pre>
 <p>
-    This is where we will run our javascript script from; more on this in a minute.<br>
+    This is where we will run our JavaScript program from; more on this in a minute.<br>
     To list the contents of the is directory type; </p>
 <pre>
     > ls
@@ -222,13 +227,13 @@ UriBeaconScanner.startScanning(allowDuplicates);
 </pre>
 <p>
     Because we need interact with the GPIO pins to control the LED's we will run as <i>superuser</i> which is what
-    the sudo command does.
+    the <i>sudo</i>i> command does.
 </p>
 <p>
-    node is the interpreter that will run our javascript program.
+    node is the runtime environment that will run our JavaScript program.
 </p>
 <p>
-    The two numbers in quotes are identifiers of the two beacons we are going to track.
+    The two numbers in quotes are identifiers of the two beacons we are going to track the proximity of.
 </p>
 <p align=center>
     <img src="assets/run_tracker.jpg" alt="Run code on command line" width=70%>
