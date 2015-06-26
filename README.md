@@ -37,6 +37,7 @@ sudo node tracker.js "uri_for_beacon1" "uri_for_beacon2"
 
 ## Task list
 - [x] Add code
-- [ ] Add workshop manual
+- [x] Add workshop manual
+- [ ] Find better ranging algorithm
 - [ ] Write introduction presentation
 
