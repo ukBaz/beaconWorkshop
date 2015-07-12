@@ -131,7 +131,7 @@ var Beacon = function(uri, red_pin, amber_pin, green_pin) {
 Beacon.prototype.startTimer = function() {
     var that = this;
     this.timer = setTimeout(function() {
-        that.lights.led(0, 0, 0);
+        that.lights.clear();
     }, 5000);
 };
 
@@ -146,11 +146,11 @@ Beacon.prototype.newScan = function(rssi, tx_power) {
     var calc_value =  calc_average(this.rssi_values);
     var range = calc_range(calc_value, tx_power);
     if (range < 2) {
-        this.lights.led(1, 0, 0);
+        this.lights.red();
     } else if ( range > 10 ) {
-        this.lights.led(0, 0, 1);
+        this.lights.green();
     } else if ( range < 10 && range > 2 ) {
-        this.lights.led(0, 1, 0);
+        this.lights.amber();
     }
     this.resetTimer();
 };

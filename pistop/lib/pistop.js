@@ -11,11 +11,38 @@ var pistop = function(red_pin, amber_pin, green_pin) {
     this.red_led = new Gpio(red_pin, 'out');
 };
 
-
-pistop.prototype.led = function(rstate, astate, gstate) {
+pistop.prototype.set = function(rstate, astate, gstate) {
     this.red_led.writeSync(rstate);
     this.amber_led.writeSync(astate);
     this.green_led.writeSync(gstate);
+};
+
+pistop.prototype.red = function() {
+    this.set(1, 0 , 0);
+};
+
+pistop.prototype.red_amber = function() {
+    this.set(1, 1 , 0);
+};
+
+pistop.prototype.amber_green = function() {
+    this.set(0, 1 , 1);
+};
+
+pistop.prototype.green = function() {
+    this.set(0, 0 , 1);
+};
+
+pistop.prototype.amber = function() {
+    this.set(0, 1 , 0);
+};
+
+pistop.prototype.clear = function() {
+    this.set(0, 0 , 0);
+};
+
+pistop.prototype.all = function() {
+    this.set(1, 1 , 1);
 };
 
 
