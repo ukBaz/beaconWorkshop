@@ -40,4 +40,5 @@ sudo node tracker.js "uri_for_beacon1" "uri_for_beacon2"
 - [x] Add workshop manual
 - [ ] Find better ranging algorithm
 - [ ] Write introduction presentation
+- [ ] Move from uriBeacon to Eddystone Beacon
 
