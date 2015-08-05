@@ -116,7 +116,8 @@
 
 <h2>Code:</h2>
 <p>
-    Type in the following code into the leafpad editor. When you've finished we will test and debug the code.
+    Type in the following code into the leafpad editor. When you've finished we will test and debug the code.<br><br>
+    <i>Note; you do not need to type text that appears after a // this is a comment and does not affect the running of the code.</i>
 </p>
 <pre>
     <div>
@@ -154,11 +155,15 @@
 <p>
     You should also see the traffic lights on the Raspberry Pi board light up. Below is a picture of what to expect,
     if a beacon is close by the light is red, amber for near, green for far (once you've tested your code you'll get
-    the opportunity to change the light sequence, and the distance sensitivity).
+    the opportunity to change the distance sensitivity and the light sequence).
 </p>
 
 <p align=center>
-    <img src="assets/hardware.png" alt="Hardware items" width=30%>
+    <img src="assets/hardware_2.png" alt="Hardware items" width=30%>
+</p>
+
+<p>
+    There are 2 beacons in the workshop room, can you guess where they are?
 </p>
 
 <p class="emphesis">Not seeing what you expected? time for debug;</p>
@@ -176,13 +181,19 @@
 <P CLASS="pagebreak"></p>
 
 <h1 class="header">Additional Challenges</h1>
-<h2>Reverse order of lights</h2>
-<p>
-    ?????????????
-</p>
+
 <h2>Change the range</h2>
 <p>
-    ????????????
+    Experiment with changing the sensitivity of the scanner. The variables CLOSE_RANGE and FAR_RANGE control when the different lights come on. <br><br>
+    <font color="red">CLOSE</font> < CLOSE_RANGE <br>
+    CLOSE_RANGE <= <font color="orange">NEAR</font> <= FAR_RANGE <br>
+    <font color="green">FAR</font> > FAR_RANGE <br>
+</p>
+
+<h2>Reverse order of lights</h2>
+<p>
+    Experiment with changing the colours that light up corresponding to CLOSE, NEAR, and FAR. <br>
+    Look for where the function "BeaconLights" is called and try swapping the pin order.
 </p>
 <P CLASS="pagebreak"></p>
 
@@ -193,7 +204,7 @@
     We also add some LED's as a simple way to show how close the beacons are.
 </p>
 <p align=center>
-    <img src="assets/hardware.png" alt="Hardware items" width=70%>
+    <img src="assets/hardware_2.png" alt="Hardware items" width=70%>
 </p>
 <h2>Connect the Display board to the RPi as described:</h2>
 <h3>Beacon 1</h3>
