@@ -41,7 +41,7 @@ sudo node tracker.js "uri_for_beacon1" "uri_for_beacon2"
 - [x] Background print colour white
 
 ### @ukBaz
-- [ ] Test code works with variables at top
+- [x] Test code works with variables at top
 - [ ] New image of directory listing
 - [ ] Write introduction presentation
 - [ ] Move from uriBeacon to Eddystone Beacon
