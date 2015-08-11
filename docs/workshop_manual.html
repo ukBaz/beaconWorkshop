@@ -157,7 +157,7 @@
 </p>
 <p>
     You should also see the traffic lights on the Raspberry Pi board light up. Below is a picture of what to expect,
-    if a beacon is close by the light is red, amber for near, green for far (once you've tested your code you'll get
+    if a beacon is in the immediate range the light is red, amber for near, green for far (once you've tested your code you'll get
     the opportunity to change the distance sensitivity and the light sequence).
 </p>
 
@@ -191,15 +191,15 @@
 
 <h2>Change the range</h2>
 <p>
-    Experiment with changing the distance sensitivity of the scanner. The variables CLOSE_RANGE and FAR_RANGE control when the different lights come on. <br><br>
-    <font color="red">CLOSE</font> < CLOSE_RANGE <br>
-    CLOSE_RANGE <= <font color="orange">NEAR</font> <= FAR_RANGE <br>
+    Experiment with changing the distance sensitivity of the scanner. The variables IMMEDIATE_RANGE and FAR_RANGE control when the different lights come on. <br><br>
+    <font color="red">IMMEDIATE</font> < IMMEDIATE_RANGE <br>
+    IMMEDIATE_RANGE <= <font color="orange">NEAR</font> <= FAR_RANGE <br>
     <font color="green">FAR</font> > FAR_RANGE <br>
 </p>
 
 <h2>Reverse order of lights</h2>
 <p>
-    Experiment with changing the colours that light up corresponding to CLOSE, NEAR, and FAR. <br><br>
+    Experiment with changing the colours that light up corresponding to IMMEDIATE, NEAR, and FAR. <br><br>
     Look for where the function "BeaconLights" is called and try swapping the pin order.
 </p>
 <P CLASS="pagebreak"></p>

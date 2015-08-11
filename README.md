@@ -47,10 +47,10 @@ sudo node tracker.js "uri_for_beacon1" "uri_for_beacon2"
 - [ ] Move from uriBeacon to Eddystone Beacon
 
 ### @soniacaldwell
+- [x] Review CLOSE/NEAR/FAR nomenclature => IMMEDIATE/NEAR/FAR
 - [ ] Test code, typing from scratch - time test, debug tips
 - [ ] ROLLING_AVERAGE to top level for 3 activity?
 
 ### unassigned
 - [ ] Find better ranging algorithm
-- [ ] Review CLOSE/NEAR/FAR nomenclature
 - [ ] Create image for all workshop machines
