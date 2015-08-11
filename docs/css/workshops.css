@@ -9,15 +9,18 @@
    html, body {
       width: 210mm;
       height: 297mm;
+      background-color: #ffffff
     }
 
     p.pagebreak {
       page-break-after: always
     }
 }
- 
-html {
-   background-color: #0996ff
+
+@media screen {
+   html {
+      background-color: #0996ff
+   }
 }
 body {
    margin-left: auto;
