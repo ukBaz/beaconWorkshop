@@ -27,7 +27,7 @@ if(process.argv.length < 4) {
 var beacon1RegExp = new RegExp(process.argv[2]);
 var beacon2RegExp = new RegExp(process.argv[3]);
 
-//* Links beacon id and pin numbers to display red/amber/green to for each beacon.*//
+//* Links beacon ID and pin numbers to display red/amber/green to for each beacon.*//
 //* See appendix 1.*//
 var beacon1_id = new BeaconLights(process.argv[2], 21, 20, 16);
 var beacon2_id = new BeaconLights(process.argv[3], 7, 8, 25);
