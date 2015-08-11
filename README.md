@@ -35,15 +35,22 @@ npm install debug
 sudo node tracker.js "uri_for_beacon1" "uri_for_beacon2"
 ```
 
-## Task list
+## Task list Done
 - [x] Add code
 - [x] Add workshop manual
-- [ ] Find better ranging algorithm
-1 [ ] Write introduction presentation
+- [x] Background print colour white
+
+### @ukBaz
+- [ ] Test code works with variables at top
+- [ ] New image of directory listing
+- [ ] Write introduction presentation
 - [ ] Move from uriBeacon to Eddystone Beacon
 
-1 [ ] Test code works with variables at top
-2 [ ] Test code, typing from scratch - time test, debug tips
-3 [ ] Review CLOSE/NEAR/FAR nomenclature
-3 [ ] Background print colour white
-3 [ ] ROLLING_AVERAGE to top level for 3 activity?
+### @soniacaldwell
+- [ ] Test code, typing from scratch - time test, debug tips
+- [ ] ROLLING_AVERAGE to top level for 3 activity?
+
+### unassigned
+- [ ] Find better ranging algorithm
+- [ ] Review CLOSE/NEAR/FAR nomenclature
+- [ ] Create image for all workshop machines
