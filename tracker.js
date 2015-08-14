@@ -1,17 +1,22 @@
 
-var IMMEDIATE_RANGE = 2; //* distance < IMMEDIATE_RANGE, red light will go on.               *//
-                         //* IMMEDIATE_RANGE <= distance <= NEAR_RANGE, amber light goes on. *//
-var NEAR_RANGE = 10;     //* distance > NEAR_RANGE, green light will go on.                  *//
+//* distance < IMMEDIATE_RANGE, red light will go on.               *//
+//* IMMEDIATE_RANGE <= distance <= NEAR_RANGE, amber light goes on. *//
+//* distance > NEAR_RANGE, green light will go on.                  *//
+var IMMEDIATE_RANGE = 2;
+var NEAR_RANGE = 10;
+
+//* Number of beacon readings used for distance calculations, average taken. *//
+var ROLLING_AVERAGE_SIZE = 5;
 
 var UriBeaconScanner = require('uri-beacon-scanner');
 var BeaconLights = require('beaconLights');
 
 UriBeaconScanner.on('discover', function(uriBeacon) {
    if(beacon1RegExp.test(uriBeacon.uri)) {
-       beacon1_id.newScan(uriBeacon.rssi, uriBeacon.txPower, IMMEDIATE_RANGE, NEAR_RANGE);
+       beacon1_id.newScan(uriBeacon.rssi, uriBeacon.txPower, IMMEDIATE_RANGE, NEAR_RANGE, ROLLING_AVERAGE_SIZE);
        console.log('Beacon1: rssi = ' + uriBeacon.rssi + ' [' + uriBeacon.txPower + ']')
    } else if (beacon2RegExp.test(uriBeacon.uri)) {
-       beacon2_id.newScan(uriBeacon.rssi, uriBeacon.txPower, IMMEDIATE_RANGE, NEAR_RANGE);
+       beacon2_id.newScan(uriBeacon.rssi, uriBeacon.txPower, IMMEDIATE_RANGE, NEAR_RANGE, ROLLING_AVERAGE_SIZE);
        console.log('Beacon2: rssi = ' + uriBeacon.rssi + ' [' + uriBeacon.txPower + ']')
    }
 });
