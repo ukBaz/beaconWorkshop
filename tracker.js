@@ -13,10 +13,22 @@ var BeaconLights = require('beaconLights');
 
 UriBeaconScanner.on('discover', function(uriBeacon) {
    if(beacon1RegExp.test(uriBeacon.uri)) {
-       beacon1_id.newScan(uriBeacon.rssi, uriBeacon.txPower, IMMEDIATE_RANGE, NEAR_RANGE, ROLLING_AVERAGE_SIZE);
+       beacon1_id.newScan(
+            uriBeacon.rssi,
+            uriBeacon.txPower,
+            IMMEDIATE_RANGE,
+            NEAR_RANGE,
+            ROLLING_AVERAGE_SIZE
+       );
        console.log('Beacon1: rssi = ' + uriBeacon.rssi + ' [' + uriBeacon.txPower + ']')
    } else if (beacon2RegExp.test(uriBeacon.uri)) {
-       beacon2_id.newScan(uriBeacon.rssi, uriBeacon.txPower, IMMEDIATE_RANGE, NEAR_RANGE, ROLLING_AVERAGE_SIZE);
+       beacon2_id.newScan(
+            uriBeacon.rssi,
+            uriBeacon.txPower,
+            IMMEDIATE_RANGE,
+            NEAR_RANGE,
+            ROLLING_AVERAGE_SIZE
+       );
        console.log('Beacon2: rssi = ' + uriBeacon.rssi + ' [' + uriBeacon.txPower + ']')
    }
 });
