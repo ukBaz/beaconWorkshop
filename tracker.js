@@ -17,7 +17,7 @@ var BeaconLights = require('beaconLights');
 UriBeaconScanner.on('discover', function(uriBeacon) {
    if(uriBeacon.uri.search(process.argv[2]) > 0) {
        console.log('Beacon1: rssi = ' + uriBeacon.rssi + ' [' + uriBeacon.txPower + ']')
-       beacon1.newScan(
+       beacon1.discovered(
             uriBeacon.rssi,
             uriBeacon.txPower,
             IMMEDIATE_RANGE,
@@ -26,7 +26,7 @@ UriBeaconScanner.on('discover', function(uriBeacon) {
        );
    } else if (uriBeacon.uri.search(process.argv[3]) > 0) {
        console.log('Beacon2: rssi = ' + uriBeacon.rssi + ' [' + uriBeacon.txPower + ']')
-       beacon2.newScan(
+       beacon2.discovered(
             uriBeacon.rssi,
             uriBeacon.txPower,
             IMMEDIATE_RANGE,
