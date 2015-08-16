@@ -16,7 +16,10 @@ var BeaconLights = require('beaconLights');
 //* Function run when beacon discovered *//
 UriBeaconScanner.on('discover', function(uriBeacon) {
    if(uriBeacon.uri.search(process.argv[2]) > 0) {
-       console.log('Beacon1: rssi = ' + uriBeacon.rssi + ' [' + uriBeacon.txPower + ']')
+       console.log(
+            'Beacon1: rssi = ' + uriBeacon.rssi +
+            ' tx power = ' + uriBeacon.txPower + ']'
+       )
        beacon1.discovered(
             uriBeacon.rssi,
             uriBeacon.txPower,
@@ -25,7 +28,10 @@ UriBeaconScanner.on('discover', function(uriBeacon) {
             ROLLING_AVERAGE_SIZE
        );
    } else if (uriBeacon.uri.search(process.argv[3]) > 0) {
-       console.log('Beacon2: rssi = ' + uriBeacon.rssi + ' [' + uriBeacon.txPower + ']')
+       console.log(
+            'Beacon2: rssi = ' + uriBeacon.rssi +
+            ' tx power = ' + uriBeacon.txPower
+       )
        beacon2.discovered(
             uriBeacon.rssi,
             uriBeacon.txPower,
