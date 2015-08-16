@@ -8,28 +8,31 @@ var NEAR_RANGE = 10;
 //* Number of beacon readings used for distance calculations, average taken. *//
 var ROLLING_AVERAGE_SIZE = 5;
 
+//* Load Node packages *//
 var UriBeaconScanner = require('uri-beacon-scanner');
 var BeaconLights = require('beaconLights');
 
+
+//* Function run when beacon discovered *//
 UriBeaconScanner.on('discover', function(uriBeacon) {
-   if(beacon1RegExp.test(uriBeacon.uri)) {
-       beacon1_id.newScan(
-            uriBeacon.rssi,
-            uriBeacon.txPower,
-            IMMEDIATE_RANGE,
-            NEAR_RANGE,
-            ROLLING_AVERAGE_SIZE
-       );
+   if(uriBeacon.uri.search(process.argv[2]) > 0) {
        console.log('Beacon1: rssi = ' + uriBeacon.rssi + ' [' + uriBeacon.txPower + ']')
-   } else if (beacon2RegExp.test(uriBeacon.uri)) {
-       beacon2_id.newScan(
+       beacon1.newScan(
             uriBeacon.rssi,
             uriBeacon.txPower,
             IMMEDIATE_RANGE,
             NEAR_RANGE,
             ROLLING_AVERAGE_SIZE
        );
+   } else if (uriBeacon.uri.search(process.argv[3]) > 0) {
        console.log('Beacon2: rssi = ' + uriBeacon.rssi + ' [' + uriBeacon.txPower + ']')
+       beacon2.newScan(
+            uriBeacon.rssi,
+            uriBeacon.txPower,
+            IMMEDIATE_RANGE,
+            NEAR_RANGE,
+            ROLLING_AVERAGE_SIZE
+       );
    }
 });
 
@@ -41,17 +44,15 @@ if(process.argv.length < 4) {
     process.exit(1);
 }
 
-var beacon1RegExp = new RegExp(process.argv[2]);
-var beacon2RegExp = new RegExp(process.argv[3]);
-
-//* Links beacon ID and pin numbers to display lights for each beacon.   *//
-//* See appendix 1.                                                      *//
-//* BeaconLights(BeaconID, immediateLightPin, nearLightPin, farLightPin) *//
-var beacon1_id = new BeaconLights(process.argv[2], 21, 20, 16);
-var beacon2_id = new BeaconLights(process.argv[3], 7, 8, 25);
-
 //* Prints progress messages to terminal.*//
 console.log('Tracking Beacon1: ' + process.argv[2]);
 console.log('Tracking Beacon2: ' + process.argv[3]);
 
+//* Links beacon ID and pin numbers to display lights for each beacon.   *//
+//* See appendix 1.                                                      *//
+//* BeaconLights(BeaconID, immediateLightPin, nearLightPin, farLightPin) *//
+var beacon1 = new BeaconLights(process.argv[2], 21, 20, 16);
+var beacon2 = new BeaconLights(process.argv[3], 7, 8, 25);
+
+//* Start scanning for beacons *//
 UriBeaconScanner.startScanning(true);
