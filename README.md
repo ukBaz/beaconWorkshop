@@ -48,10 +48,10 @@ sudo node tracker.js "uri_for_beacon1" "uri_for_beacon2"
 
 ### @soniacaldwell
 - [x] Review CLOSE/NEAR/FAR nomenclature => IMMEDIATE/NEAR/FAR
-- [ ] Test code, typing from scratch - time test, debug tips
+- [x] Test code, typing from scratch - time test, debug tips
 - [x] ROLLING_AVERAGE to top level for third activity? Code done.
-- [ ] Document third activity for changing rolling average.
-- [ ] Test calcRangeAlt to see if that is a better candidate for the range algorithm.
+- [ ] Document third activity for changing rolling average. Not sure this will add a great deal.
+- [x] Test calcRangeAlt to see if that is a better candidate for the range algorithm. rssi1m tested and added.
 
 ### unassigned
 - [ ] Create image for all workshop machines
