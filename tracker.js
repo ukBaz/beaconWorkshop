@@ -3,7 +3,7 @@
 //* IMMEDIATE_RANGE <= distance <= NEAR_RANGE, amber light goes on. *//
 //* distance > NEAR_RANGE, green light will go on.                  *//
 var IMMEDIATE_RANGE = 2;
-var NEAR_RANGE = 10;
+var NEAR_RANGE = 4;
 
 //* Number of beacon readings used for distance calculations, average taken. *//
 var ROLLING_AVERAGE_SIZE = 5;
@@ -12,13 +12,12 @@ var ROLLING_AVERAGE_SIZE = 5;
 var UriBeaconScanner = require('uri-beacon-scanner');
 var BeaconLights = require('beaconLights');
 
-
 //* Function run when beacon discovered *//
 UriBeaconScanner.on('discover', function(uriBeacon) {
    if(uriBeacon.uri.search(process.argv[2]) > 0) {
        console.log(
             'Beacon1: rssi = ' + uriBeacon.rssi +
-            ' tx power = ' + uriBeacon.txPower + ']'
+            ' tx power = ' + uriBeacon.txPower
        )
        beacon1.discovered(
             uriBeacon.rssi,
